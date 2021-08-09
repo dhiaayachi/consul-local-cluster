@@ -1,0 +1,86 @@
+version: '3.7'
+
+services:
+  
+  consul-server1:
+    image: consul:latest
+    container_name: consul-server1
+    restart: always
+    volumes:
+     - ./config/server1.json:/consul/config/server1.json:ro
+     - ./certs/:/consul/config/certs/:ro
+    networks:
+      - consul
+    ports:
+      - "8500:8500"
+      - "8600:8600/tcp"
+      - "8600:8600/udp"
+    command: "agent -bootstrap-expect=3"
+
+  consul-server2:
+    image: consul:latest
+    container_name: consul-server2
+    restart: always
+    volumes:
+     - ./config/server2.json:/consul/config/server2.json:ro
+     - ./certs/:/consul/config/certs/:ro
+    networks:
+      - consul
+    command: "agent -bootstrap-expect=3"
+
+  consul-server3:
+    image: consul:latest
+    container_name: consul-server3
+    restart: always
+    volumes:
+     - ./config/server3.json:/consul/config/server3.json:ro
+     - ./certs/:/consul/config/certs/:ro
+    networks:
+      - consul
+    command: "agent -bootstrap-expect=3"
+  myvault:
+    image: vault
+    container_name: myvault
+    networks:
+      - consul
+    ports:
+      - "127.0.0.1:8200:8200"
+    volumes:
+      - ./config/vault.json:/vault/config/vault.json:rw
+    cap_add:
+      - IPC_LOCK
+    entrypoint: vault server -config=/vault/config/vault.json
+
+  consul-client1:
+    image: consul:latest
+    container_name: consul-client1
+    restart: always
+    ports:
+      - "9003:9003"
+    environment:
+      - PORT=9003
+    volumes:
+     - ./config/client1.json:/consul/config/client.json:ro
+     - ./certs/:/consul/config/certs/:ro
+    networks:
+      - consul
+    command: "agent"
+  consul-client2:
+    image: consul:latest
+    container_name: consul-client2
+    restart: always
+    ports:
+      - "9002:9002"
+    environment:
+      - PORT=9002
+      - COUNTING_SERVICE_URL=http://localhost:5000
+    volumes:
+     - ./config/client2.json:/consul/config/client.json:ro
+     - ./certs/:/consul/config/certs/:ro
+    networks:
+      - consul
+    command: "agent"
+networks:
+  consul:
+    driver: bridge
+
