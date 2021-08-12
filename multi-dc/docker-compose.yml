@@ -1,0 +1,164 @@
+version: '3.7'
+
+services:
+  
+  dc1-consul-server1:
+    image: consul:latest
+    container_name: dc1-consul-server1
+    restart: always
+    volumes:
+     - ./config/dc1/server1.json:/consul/config/server1.json:ro
+     - ./.temp/certs/dc1/:/consul/config/certs/:ro
+    networks:
+      - consul
+    ports:
+      - "8500:8500"
+      - "8600:8600/tcp"
+      - "8600:8600/udp"
+    command: "agent -bootstrap-expect=3"
+
+  dc1-consul-server2:
+    image: consul:latest
+    container_name: dc1-consul-server2
+    restart: always
+    volumes:
+     - ./config/dc1/server2.json:/consul/config/server2.json:ro
+     - ./.temp/certs/dc1/:/consul/config/certs/:ro
+    networks:
+      - consul
+    command: "agent -bootstrap-expect=3"
+
+  dc1-consul-server3:
+    image: consul:latest
+    container_name: dc1-consul-server3
+    restart: always
+    volumes:
+     - ./config/dc1/server3.json:/consul/config/server3.json:ro
+     - ./.temp/certs/dc1/:/consul/config/certs/:ro
+    networks:
+      - consul
+    command: "agent -bootstrap-expect=3"
+  dc2-consul-server1:
+    image: consul:latest
+    container_name: dc2-consul-server1
+    restart: always
+    volumes:
+     - ./config/dc2/server1.json:/consul/config/server1.json:ro
+     - ./.temp/certs/dc2/:/consul/config/certs/:ro
+    networks:
+      - consul
+    ports:
+      - "8501:8500"
+      - "8601:8600/tcp"
+      - "8601:8600/udp"
+    command: "agent -bootstrap-expect=3"
+
+  dc2-consul-server2:
+    image: consul:latest
+    container_name: dc2-consul-server2
+    restart: always
+    volumes:
+     - ./config/dc2/server2.json:/consul/config/server2.json:ro
+     - ./.temp/certs/dc2/:/consul/config/certs/:ro
+    networks:
+      - consul
+    command: "agent -bootstrap-expect=3"
+
+  dc2-consul-server3:
+    image: consul:latest
+    container_name: dc2-consul-server3
+    restart: always
+    volumes:
+     - ./config/dc2/server3.json:/consul/config/server3.json:ro
+     - ./.temp/certs/dc2/:/consul/config/certs/:ro
+    networks:
+      - consul
+    command: "agent -bootstrap-expect=3"
+
+  dc1-consul-client1:
+    image: consul:latest
+    container_name: dc1-consul-client1
+    restart: always
+    ports:
+      - "9003:9003"
+    environment:
+      - PORT=9003
+    volumes:
+     - ./config/dc1/client1.json:/consul/config/client.json:ro
+     - ./.temp/certs/dc1/:/consul/config/certs/:ro
+    networks:
+      - consul
+    command: "agent"
+  dc1-consul-client2:
+    image: consul:latest
+    container_name: dc1-consul-client2
+    restart: always
+    ports:
+      - "9002:9002"
+    environment:
+      - PORT=9002
+      - COUNTING_SERVICE_URL=http://localhost:5000
+    volumes:
+     - ./config/dc1/client2.json:/consul/config/client.json:ro
+     - ./.temp/certs/dc1/:/consul/config/certs/:ro
+    networks:
+      - consul
+    command: "agent"
+
+  dc2-consul-client1:
+    image: consul:latest
+    container_name: dc2-consul-client1
+    restart: always
+    ports:
+      - "9103:9003"
+    environment:
+      - PORT=9003
+    volumes:
+      - ./config/dc2/client1.json:/consul/config/client.json:ro
+      - ./.temp/certs/dc2/:/consul/config/certs/:ro
+    networks:
+      - consul
+    command: "agent"
+  dc2-consul-client2:
+    image: consul:latest
+    container_name: dc2-consul-client2
+    restart: always
+    ports:
+      - "9102:9002"
+    environment:
+      - PORT=9002
+      - COUNTING_SERVICE_URL=http://localhost:5000
+    volumes:
+      - ./config/dc2/client2.json:/consul/config/client.json:ro
+      - ./.temp/certs/dc2/:/consul/config/certs/:ro
+    networks:
+      - consul
+    command: "agent"
+  dc1-myvault:
+    image: vault
+    container_name: dc1-myvault
+    networks:
+      - consul
+    ports:
+      - "127.0.0.1:8200:8200"
+    volumes:
+      - ./config/vault.json:/vault/config/vault.json:rw
+    cap_add:
+      - IPC_LOCK
+    entrypoint: vault server -config=/vault/config/vault.json
+  dc2-myvault:
+    image: vault
+    container_name: dc2-myvault
+    networks:
+      - consul
+    ports:
+      - "127.0.0.1:8201:8200"
+    volumes:
+      - ./config/vault.json:/vault/config/vault.json:rw
+    cap_add:
+      - IPC_LOCK
+    entrypoint: vault server -config=/vault/config/vault.json
+networks:
+  consul:
+    driver: bridge
+
