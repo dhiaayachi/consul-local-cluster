@@ -1,0 +1,11 @@
+{
+    "Provider": "vault",
+    "Config": {
+        "LeafCertTTL": "72h",
+        "Address": "http://dc1-myvault:8200",
+        "Token": {{VAULT_TOKEN}},
+        "RootPKIPath": "connect-root",
+        "IntermediatePKIPath": "connect-intermediate"
+    },
+    "ForceWithoutCrossSigning": false
+}

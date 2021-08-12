@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+TEMP_DIR=".temp"
+
+./cluster-pre-init.sh
+docker-compose up -d
+sleep 20s
+./cluster-init.sh
+sleep 20s
+./service-install.sh
+
+TOKEN=`cat $TEMP_DIR/acl-token`
+echo -e "\n\n\n ROOT_ACL_TOKEN = $TOKEN \n\n\n"
+
+echo "export CONSUL_HTTP_TOKEN=$TOKEN" > $TEMP_DIR/env
+
+echo -e "run:\n\nsource $TEMP_DIR/env\n\n to configure your local environment"
