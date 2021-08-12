@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 TEMP_DIR=".temp"
+rm -rf $TEMP_DIR
 
 ./cluster-pre-init.sh
 docker-compose up -d

@@ -7,8 +7,6 @@ for ID in 1 2
 do  
     docker exec -e "CONSUL_HTTP_TOKEN=$CONSUL_HTTP_TOKEN" dc$ID-consul-client1 consul acl set-agent-token default $AGENT_TOKEN
     docker exec -e "CONSUL_HTTP_TOKEN=$CONSUL_HTTP_TOKEN" dc$ID-consul-client2 consul acl set-agent-token default $AGENT_TOKEN
-    docker exec -e "CONSUL_HTTP_TOKEN=$CONSUL_HTTP_TOKEN" dc$ID-consul-client1 consul acl set-agent-token agent $AGENT_TOKEN
-    docker exec -e "CONSUL_HTTP_TOKEN=$CONSUL_HTTP_TOKEN" dc$ID-consul-client2 consul acl set-agent-token agent $AGENT_TOKEN
 
     ###
     # Container 1

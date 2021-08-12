@@ -6,7 +6,7 @@ node_prefix "" {
 }
 service_prefix "" {
     policy = "write"
-    intentions = "read"
+
 }
 operator = "write"
 acl = "write"
