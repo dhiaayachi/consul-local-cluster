@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+TEMP_DIR=".temp"
+
+docker-compose up -d
+sleep 15s
+./cluster-init.sh
+sleep 20s
+./service-install.sh
+
+TOKEN=`cat $TEMP_DIR/acl-token`
+echo -e "\n\n\n ROOT_ACL_TOKEN = $TOKEN \n\n\n"
