@@ -23,3 +23,28 @@ to stop the cluster run:
 ```
 ./cluster-down
 ```
+
+#### Running a dev build of consul in the containers
+<details>
+  <summary>Click to expand!</summary>
+  
+* Build the appropriate binary with `GOOS=linux make dev` (or whatever OS version your underlying image is based upon)
+* Replace the `consul` binary by attaching a volume directive like `/path_to_your_built_consul/consul:/bin/consul`
+
+Example `docker-compose.yml`:
+
+```json
+services:
+...
+  consul-server1:
+    image: consul:latest
+    container_name: consul-server1
+    restart: always
+    volumes:
+     - ./config/server1.json:/consul/config/server1.json:ro
+     - ./certs/:/consul/config/certs/:ro
+     - /path_to_your_built_consul/consul:/bin/consul
+...
+```
+
+</details>
