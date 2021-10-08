@@ -28,7 +28,7 @@ to stop the cluster run:
 <details>
   <summary>Click to expand!</summary>
   
-* Build the appropriate binary with `GOOS=linux make dev` (or whatever OS version your underlying image is based upon)
+* Build the appropriate binary with `GOOS=linux make dev`
 * Replace the `consul` binary by attaching a volume directive like `/path_to_your_built_consul/consul:/bin/consul`
 
 Example `docker-compose.yml`:
