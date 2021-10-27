@@ -2,6 +2,7 @@
 
 TEMP_DIR=".temp"
 mkdir -p $TEMP_DIR
+export VAULT_ADDR='http://127.0.0.1:8200'
 
 if [ ! -f $TEMP_DIR/vault-init.json ]; then
      vault operator init --format json -n 1 -t 1 > $TEMP_DIR/vault-init.json
