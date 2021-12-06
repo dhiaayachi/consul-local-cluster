@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-TEMP_DIR=".temp"
-rm -rf $TEMP_DIR/vault-init.json
-docker-compose down

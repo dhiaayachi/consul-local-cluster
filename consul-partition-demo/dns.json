@@ -1,0 +1,12 @@
+ {
+  "Node": "nytimes",
+  "Address": "www.nytimes.com",
+  "NodeMeta": {
+    "external-node": "true",
+    "external-probe": "true"
+  },
+  "Service": {
+    "Service": "nyt",
+    "Port": 80
+  }
+}

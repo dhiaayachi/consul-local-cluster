@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+TEMP_DIR=".temp"
+rm -rf $TEMP_DIR
+
+./cluster-pre-init.sh
+docker-compose up -d
+sleep 20s
+./cluster-init.sh
+sleep 20s
+./service-install.sh
+
+echo -e "run:\n\nsource $TEMP_DIR/env\n\n to configure your local environment"

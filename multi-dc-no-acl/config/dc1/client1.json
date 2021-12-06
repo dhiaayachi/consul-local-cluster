@@ -1,0 +1,35 @@
+{
+    "node_name": "dc1-consul-client1",
+    "datacenter": "dc1",
+    "log_level":"DEBUG",
+    "data_dir": "/consul/data",
+    "retry_join":[
+        "dc1-consul-server1",
+        "dc1-consul-server2",
+        "dc1-consul-server3"
+     ],
+    "service": {
+    "name": "dc1-counting",
+    "port": 9003,
+    "connect": {
+      "sidecar_service": {}
+    },
+    "check": {
+      "id": "counting-check",
+      "http": "http://localhost:9003/health",
+      "method": "GET",
+      "interval": "1s",
+      "timeout": "1s"
+    }
+    },
+    "ports": {
+    "grpc": 8502
+    },
+    "encrypt": "aPuGh+5UDskRAbkLaXRzFoSOcSM+5vAK+NEYOWHJH7w=",
+    "verify_incoming": true,
+    "verify_outgoing": true,
+    "verify_server_hostname": true,
+    "ca_file": "/consul/config/certs/consul-agent-ca.pem",
+    "cert_file": "/consul/config/certs/dc1-server-consul-0.pem",
+    "key_file": "/consul/config/certs/dc1-server-consul-0-key.pem"
+}
