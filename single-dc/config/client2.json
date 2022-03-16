@@ -32,8 +32,13 @@
     }
   },
   "acl": {
-        "enabled": true
-    },
+    "enabled": true,
+    "default_policy": "deny",
+    "down_policy": "extend-cache",
+    "tokens": {
+        "agent": "client1"
+    }
+  },
   "ports": {
     "grpc": 8502
     },

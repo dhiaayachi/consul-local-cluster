@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+TEMP_DIR=".temp"
+
+docker-compose up -d
+sleep 20s
+./cluster-init.sh
+sleep 20s
+./service-install.sh

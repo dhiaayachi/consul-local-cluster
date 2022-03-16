@@ -1,7 +1,8 @@
 {
     "Provider": "vault",
     "Config": {
-        "LeafCertTTL": "72h",
+        "LeafCertTTL": "5m",
+        "SkipValidate": true,
         "Address": "http://myvault:8200",
         "Token": {{VAULT_TOKEN}},
         "RootPKIPath": "connect-root",

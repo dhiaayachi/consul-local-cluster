@@ -6,7 +6,7 @@
     },
     "data_dir": "consul/data",
     "datacenter": "dc1",
-    "log_level":"INFO",
+    "log_level":"TRACE",
     "addresses": {
         "http" : "0.0.0.0"
     },

@@ -1,7 +1,7 @@
 {
     "node_name": "consul-client1",
     "datacenter": "dc1",
-    "log_level":"DEBUG",
+    "log_level":"TRACE",
     "data_dir": "/consul/data",
     "retry_join":[
         "consul-server1",
@@ -26,7 +26,12 @@
     "grpc": 8502
     },
     "acl": {
-        "enabled": true
+        "enabled": true,
+        "default_policy": "deny",
+        "down_policy": "extend-cache",
+        "tokens": {
+            "agent": "client1"
+        }
     },
     "encrypt": "aPuGh+5UDskRAbkLaXRzFoSOcSM+5vAK+NEYOWHJH7w=",
     "verify_incoming": true,

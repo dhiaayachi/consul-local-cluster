@@ -1,5 +1,4 @@
 {
-  "partition": "team-foo",
   "node_name": "consul-client",
   "datacenter": "dc1",
   "log_level":"DEBUG",

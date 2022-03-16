@@ -9,6 +9,8 @@ services:
     volumes:
      - ./config/server1.json:/consul/config/server1.json:ro
      - ./certs/:/consul/config/certs/:ro
+     - ./consul_new:/bin/consul
+     - ./test.lic:/consul/test.lic
     networks:
       - consul
     ports:
@@ -24,6 +26,8 @@ services:
     volumes:
      - ./config/server2.json:/consul/config/server2.json:ro
      - ./certs/:/consul/config/certs/:ro
+     - ./consul_new:/bin/consul
+     - ./test.lic:/consul/test.lic
     networks:
       - consul
     command: "agent -bootstrap-expect=3"
@@ -35,6 +39,8 @@ services:
     volumes:
      - ./config/server3.json:/consul/config/server3.json:ro
      - ./certs/:/consul/config/certs/:ro
+     - ./consul_new:/bin/consul
+     - ./test.lic:/consul/test.lic
     networks:
       - consul
     command: "agent -bootstrap-expect=3"
@@ -62,6 +68,8 @@ services:
     volumes:
      - ./config/client1.json:/consul/config/client.json:ro
      - ./certs/:/consul/config/certs/:ro
+     - ./consul_old:/bin/consul
+     - ./test.lic:/consul/test.lic
     networks:
       - consul
     command: "agent"
@@ -71,12 +79,15 @@ services:
     restart: always
     ports:
       - "9002:9002"
+      - "8501:8500"
     environment:
       - PORT=9002
       - COUNTING_SERVICE_URL=http://localhost:5000
     volumes:
      - ./config/client2.json:/consul/config/client.json:ro
      - ./certs/:/consul/config/certs/:ro
+     - ./consul_old:/bin/consul
+     - ./test.lic:/consul/test.lic
     networks:
       - consul
     command: "agent"
